@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0.1 (Python 3.9.13 on win32)" generated="20221125 15:33:34.510" rpa="false" schemaversion="3">
+<suite id="s1" name="Verify Login Wrong Auth" source="C:\Users\user\PycharmProjects1\APIAutomationUsingRF\tests\api\endpoints\login\verify_login_wrong_auth.robot">
+<test id="s1-t1" name="Verify Login With Wrong Password Returns 401" line="10">
+<kw name="Custom Test Template">
+<arg>admin</arg>
+<arg>wrongPass</arg>
+<kw name="Log To Console" library="BuiltIn">
+<arg>\nSending Request To ${Global_ENDPOINT_LOGIN}\n</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221125 15:33:35.441" endtime="20221125 15:33:35.443"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>\nSending Request To ${Global_ENDPOINT_LOGIN}\n</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20221125 15:33:35.445" level="INFO">
+Sending Request To http://127.0.0.1:5000/login
+</msg>
+<status status="PASS" starttime="20221125 15:33:35.443" endtime="20221125 15:33:35.445"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{jsonBody}</var>
+<arg>username=${username}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20221125 15:33:35.449" level="INFO">&amp;{jsonBody} = { username=admin | password=wrongPass }</msg>
+<status status="PASS" starttime="20221125 15:33:35.446" endtime="20221125 15:33:35.449"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>url=${Global_ENDPOINT_LOGIN}</arg>
+<arg>json=${jsonBody}</arg>
+<arg>expected_status=401</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20221125 15:33:35.484" level="INFO">POST Request : url=http://127.0.0.1:5000/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '46', 'Content-Type': 'application/json'} 
+ body=b'{"username": "admin", "password": "wrongPass"}' 
+ </msg>
+<msg timestamp="20221125 15:33:35.485" level="INFO">POST Response : url=http://127.0.0.1:5000/login 
+ status=401, reason=UNAUTHORIZED 
+ headers={'Server': 'Werkzeug/2.2.2 Python/3.9.13', 'Date': 'Fri, 25 Nov 2022 10:03:35 GMT', 'Content-Type': 'application/json', 'Content-Length': '27', 'Connection': 'close'} 
+ body={"ERROR":"NOT AUTHORIZED"}
+ 
+ </msg>
+<msg timestamp="20221125 15:33:35.485" level="INFO">${response} = &lt;Response [401]&gt;</msg>
+<status status="PASS" starttime="20221125 15:33:35.450" endtime="20221125 15:33:35.485"/>
+</kw>
+<kw name="Validate Schema" library="validations">
+<arg>inputJson=${response.json()}</arg>
+<arg>referenceSchemaPath=${GLOBAL_SCHEMA_ERROR}</arg>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Validating the JSON Schema!</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221125 15:33:35.491" endtime="20221125 15:33:35.493"/>
+</kw>
+<kw name="Validate Json Schema" library="json_validate_schema">
+<arg>${inputJson}</arg>
+<arg>${referenceSchemaPath}</arg>
+<status status="PASS" starttime="20221125 15:33:35.493" endtime="20221125 15:33:35.508"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.486" endtime="20221125 15:33:35.509"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.439" endtime="20221125 15:33:35.510"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.437" endtime="20221125 15:33:35.511"/>
+</test>
+<test id="s1-t2" name="Verify Login With Wrong Username Returns 401" line="12">
+<kw name="Custom Test Template">
+<arg>guest</arg>
+<arg>masterPass</arg>
+<kw name="Log To Console" library="BuiltIn">
+<arg>\nSending Request To ${Global_ENDPOINT_LOGIN}\n</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221125 15:33:35.516" endtime="20221125 15:33:35.519"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>\nSending Request To ${Global_ENDPOINT_LOGIN}\n</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20221125 15:33:35.521" level="INFO">
+Sending Request To http://127.0.0.1:5000/login
+</msg>
+<status status="PASS" starttime="20221125 15:33:35.519" endtime="20221125 15:33:35.521"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{jsonBody}</var>
+<arg>username=${username}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20221125 15:33:35.526" level="INFO">&amp;{jsonBody} = { username=guest | password=masterPass }</msg>
+<status status="PASS" starttime="20221125 15:33:35.523" endtime="20221125 15:33:35.527"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>url=${Global_ENDPOINT_LOGIN}</arg>
+<arg>json=${jsonBody}</arg>
+<arg>expected_status=401</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20221125 15:33:35.549" level="INFO">POST Request : url=http://127.0.0.1:5000/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '47', 'Content-Type': 'application/json'} 
+ body=b'{"username": "guest", "password": "masterPass"}' 
+ </msg>
+<msg timestamp="20221125 15:33:35.549" level="INFO">POST Response : url=http://127.0.0.1:5000/login 
+ status=401, reason=UNAUTHORIZED 
+ headers={'Server': 'Werkzeug/2.2.2 Python/3.9.13', 'Date': 'Fri, 25 Nov 2022 10:03:35 GMT', 'Content-Type': 'application/json', 'Content-Length': '27', 'Connection': 'close'} 
+ body={"ERROR":"NOT AUTHORIZED"}
+ 
+ </msg>
+<msg timestamp="20221125 15:33:35.550" level="INFO">${response} = &lt;Response [401]&gt;</msg>
+<status status="PASS" starttime="20221125 15:33:35.527" endtime="20221125 15:33:35.550"/>
+</kw>
+<kw name="Validate Schema" library="validations">
+<arg>inputJson=${response.json()}</arg>
+<arg>referenceSchemaPath=${GLOBAL_SCHEMA_ERROR}</arg>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Validating the JSON Schema!</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221125 15:33:35.556" endtime="20221125 15:33:35.557"/>
+</kw>
+<kw name="Validate Json Schema" library="json_validate_schema">
+<arg>${inputJson}</arg>
+<arg>${referenceSchemaPath}</arg>
+<status status="PASS" starttime="20221125 15:33:35.558" endtime="20221125 15:33:35.576"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.551" endtime="20221125 15:33:35.576"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.514" endtime="20221125 15:33:35.577"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.512" endtime="20221125 15:33:35.578"/>
+</test>
+<test id="s1-t3" name="Verify Login With Empty Data Returns 401" line="14">
+<kw name="Custom Test Template">
+<arg>${Empty}</arg>
+<arg>${Empty}</arg>
+<kw name="Log To Console" library="BuiltIn">
+<arg>\nSending Request To ${Global_ENDPOINT_LOGIN}\n</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221125 15:33:35.589" endtime="20221125 15:33:35.591"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>\nSending Request To ${Global_ENDPOINT_LOGIN}\n</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20221125 15:33:35.593" level="INFO">
+Sending Request To http://127.0.0.1:5000/login
+</msg>
+<status status="PASS" starttime="20221125 15:33:35.592" endtime="20221125 15:33:35.594"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{jsonBody}</var>
+<arg>username=${username}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20221125 15:33:35.597" level="INFO">&amp;{jsonBody} = { username= | password= }</msg>
+<status status="PASS" starttime="20221125 15:33:35.595" endtime="20221125 15:33:35.597"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>url=${Global_ENDPOINT_LOGIN}</arg>
+<arg>json=${jsonBody}</arg>
+<arg>expected_status=401</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20221125 15:33:35.622" level="INFO">POST Request : url=http://127.0.0.1:5000/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '32', 'Content-Type': 'application/json'} 
+ body=b'{"username": "", "password": ""}' 
+ </msg>
+<msg timestamp="20221125 15:33:35.622" level="INFO">POST Response : url=http://127.0.0.1:5000/login 
+ status=401, reason=UNAUTHORIZED 
+ headers={'Server': 'Werkzeug/2.2.2 Python/3.9.13', 'Date': 'Fri, 25 Nov 2022 10:03:35 GMT', 'Content-Type': 'application/json', 'Content-Length': '27', 'Connection': 'close'} 
+ body={"ERROR":"NOT AUTHORIZED"}
+ 
+ </msg>
+<msg timestamp="20221125 15:33:35.623" level="INFO">${response} = &lt;Response [401]&gt;</msg>
+<status status="PASS" starttime="20221125 15:33:35.598" endtime="20221125 15:33:35.623"/>
+</kw>
+<kw name="Validate Schema" library="validations">
+<arg>inputJson=${response.json()}</arg>
+<arg>referenceSchemaPath=${GLOBAL_SCHEMA_ERROR}</arg>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Validating the JSON Schema!</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221125 15:33:35.629" endtime="20221125 15:33:35.630"/>
+</kw>
+<kw name="Validate Json Schema" library="json_validate_schema">
+<arg>${inputJson}</arg>
+<arg>${referenceSchemaPath}</arg>
+<status status="PASS" starttime="20221125 15:33:35.631" endtime="20221125 15:33:35.642"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.623" endtime="20221125 15:33:35.643"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.583" endtime="20221125 15:33:35.643"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.581" endtime="20221125 15:33:35.645"/>
+</test>
+<test id="s1-t4" name="Verify Login With Wrong Username And Password Returns 401" line="16">
+<kw name="Custom Test Template">
+<arg>guest</arg>
+<arg>wrongPass</arg>
+<kw name="Log To Console" library="BuiltIn">
+<arg>\nSending Request To ${Global_ENDPOINT_LOGIN}\n</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221125 15:33:35.651" endtime="20221125 15:33:35.655"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>\nSending Request To ${Global_ENDPOINT_LOGIN}\n</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20221125 15:33:35.657" level="INFO">
+Sending Request To http://127.0.0.1:5000/login
+</msg>
+<status status="PASS" starttime="20221125 15:33:35.655" endtime="20221125 15:33:35.657"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{jsonBody}</var>
+<arg>username=${username}</arg>
+<arg>password=${password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20221125 15:33:35.660" level="INFO">&amp;{jsonBody} = { username=guest | password=wrongPass }</msg>
+<status status="PASS" starttime="20221125 15:33:35.658" endtime="20221125 15:33:35.660"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>url=${Global_ENDPOINT_LOGIN}</arg>
+<arg>json=${jsonBody}</arg>
+<arg>expected_status=401</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20221125 15:33:35.680" level="INFO">POST Request : url=http://127.0.0.1:5000/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '46', 'Content-Type': 'application/json'} 
+ body=b'{"username": "guest", "password": "wrongPass"}' 
+ </msg>
+<msg timestamp="20221125 15:33:35.680" level="INFO">POST Response : url=http://127.0.0.1:5000/login 
+ status=401, reason=UNAUTHORIZED 
+ headers={'Server': 'Werkzeug/2.2.2 Python/3.9.13', 'Date': 'Fri, 25 Nov 2022 10:03:35 GMT', 'Content-Type': 'application/json', 'Content-Length': '27', 'Connection': 'close'} 
+ body={"ERROR":"NOT AUTHORIZED"}
+ 
+ </msg>
+<msg timestamp="20221125 15:33:35.681" level="INFO">${response} = &lt;Response [401]&gt;</msg>
+<status status="PASS" starttime="20221125 15:33:35.661" endtime="20221125 15:33:35.681"/>
+</kw>
+<kw name="Validate Schema" library="validations">
+<arg>inputJson=${response.json()}</arg>
+<arg>referenceSchemaPath=${GLOBAL_SCHEMA_ERROR}</arg>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Validating the JSON Schema!</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221125 15:33:35.686" endtime="20221125 15:33:35.687"/>
+</kw>
+<kw name="Validate Json Schema" library="json_validate_schema">
+<arg>${inputJson}</arg>
+<arg>${referenceSchemaPath}</arg>
+<status status="PASS" starttime="20221125 15:33:35.688" endtime="20221125 15:33:35.702"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.682" endtime="20221125 15:33:35.702"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.649" endtime="20221125 15:33:35.703"/>
+</kw>
+<status status="PASS" starttime="20221125 15:33:35.647" endtime="20221125 15:33:35.704"/>
+</test>
+<status status="PASS" starttime="20221125 15:33:34.521" endtime="20221125 15:33:35.706"/>
+</suite>
+<statistics>
+<total>
+<stat pass="4" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="4" fail="0" skip="0" id="s1" name="Verify Login Wrong Auth">Verify Login Wrong Auth</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

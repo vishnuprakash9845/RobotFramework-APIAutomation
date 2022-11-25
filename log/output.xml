@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0.1 (Python 3.9.13 on win32)" generated="20221125 17:16:49.138" rpa="false" schemaversion="3">
+<suite id="s1" name="Verify Delete Users" source="C:\Users\user\PycharmProjects1\APIAutomationUsingRF\tests\api\endpoints\users\verify_delete_users.robot">
+<kw name="Custom Suite Setup" type="SETUP">
+<kw name="Authorize" library="setupTeardowns">
+<if>
+<branch type="IF" condition="not ${GLOBAL_AUTH_SET}">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{jsonBody}</var>
+<arg>username=admin</arg>
+<arg>password=masterPass</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20221125 17:16:50.897" level="INFO">&amp;{jsonBody} = { username=admin | password=masterPass }</msg>
+<status status="PASS" starttime="20221125 17:16:50.895" endtime="20221125 17:16:50.902"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>url=${Global_ENDPOINT_LOGIN}</arg>
+<arg>json=${jsonBody}</arg>
+<arg>expected_status=200</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20221125 17:16:51.033" level="INFO">POST Request : url=http://127.0.0.1:5000/login 
+ path_url=/login 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '47', 'Content-Type': 'application/json'} 
+ body=b'{"username": "admin", "password": "masterPass"}' 
+ </msg>
+<msg timestamp="20221125 17:16:51.034" level="INFO">POST Response : url=http://127.0.0.1:5000/login 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/2.2.2 Python/3.9.13', 'Date': 'Fri, 25 Nov 2022 11:46:51 GMT', 'Content-Type': 'application/json', 'Content-Length': '49', 'Connection': 'close'} 
+ body={"token":"asfd234fkaDkf2asdf2a889DFJSFlsDFWf21"}
+ 
+ </msg>
+<msg timestamp="20221125 17:16:51.035" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20221125 17:16:50.903" endtime="20221125 17:16:51.035"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${responseJson}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20221125 17:16:51.041" level="INFO">${responseJson} = {'token': 'asfd234fkaDkf2asdf2a889DFJSFlsDFWf21'}</msg>
+<status status="PASS" starttime="20221125 17:16:51.037" endtime="20221125 17:16:51.041"/>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<var>${token}</var>
+<arg>${responseJson}</arg>
+<arg>token</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20221125 17:16:51.046" level="INFO">${token} = asfd234fkaDkf2asdf2a889DFJSFlsDFWf21</msg>
+<status status="PASS" starttime="20221125 17:16:51.042" endtime="20221125 17:16:51.048"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20221125 17:16:51.052" level="INFO">${headers} = {'Authorization': 'Bearer asfd234fkaDkf2asdf2a889DFJSFlsDFWf21'}</msg>
+<status status="PASS" starttime="20221125 17:16:51.050" endtime="20221125 17:16:51.053"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${GLOBAL_AUTH_HEADER}</arg>
+<arg>${headers}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20221125 17:16:51.057" level="INFO">${GLOBAL_AUTH_HEADER} = {'Authorization': 'Bearer asfd234fkaDkf2asdf2a889DFJSFlsDFWf21'}</msg>
+<status status="PASS" starttime="20221125 17:16:51.054" endtime="20221125 17:16:51.057"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${GLOBAL_AUTH_SET}</arg>
+<arg>${True}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20221125 17:16:51.060" level="INFO">${GLOBAL_AUTH_SET} = True</msg>
+<status status="PASS" starttime="20221125 17:16:51.058" endtime="20221125 17:16:51.061"/>
+</kw>
+<status status="PASS" starttime="20221125 17:16:50.894" endtime="20221125 17:16:51.062"/>
+</branch>
+<status status="PASS" starttime="20221125 17:16:50.894" endtime="20221125 17:16:51.063"/>
+</if>
+<status status="PASS" starttime="20221125 17:16:50.893" endtime="20221125 17:16:51.063"/>
+</kw>
+<kw name="Create New User" library="setupTeardowns">
+<var>${id}</var>
+<var>${response}</var>
+<kw name="Create List" library="BuiltIn">
+<var>@{contracts}</var>
+<doc>Returns a list containing given items.</doc>
+<msg timestamp="20221125 17:16:51.075" level="INFO">@{contracts} = [ ]</msg>
+<status status="PASS" starttime="20221125 17:16:51.074" endtime="20221125 17:16:51.075"/>
+</kw>
+<if>
+<branch type="IF" condition="${numberOfContracts} &gt; ${0}">
+<for flavor="IN RANGE">
+<var>${counter}</var>
+<value>${numberOfContracts}</value>
+<iter>
+<var name="${counter}">0</var>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${contract}</var>
+<arg>currency=${contractsCurrency}</arg>
+<arg>id=${contractsId}</arg>
+<arg>price=${contractsPrice}</arg>
+<arg>type=${contractsType}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20221125 17:16:51.093" level="INFO">${contract} = {'currency': 'USD', 'id': '33', 'price': 9.99, 'type': 'basic'}</msg>
+<status status="PASS" starttime="20221125 17:16:51.090" endtime="20221125 17:16:51.093"/>
+</kw>
+<kw name="Append To List" library="Collections">
+<arg>${contracts}</arg>
+<arg>${contract}</arg>
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<status status="PASS" starttime="20221125 17:16:51.095" endtime="20221125 17:16:51.184"/>
+</kw>
+<status status="PASS" starttime="20221125 17:16:51.088" endtime="20221125 17:16:51.185"/>
+</iter>
+<status status="PASS" starttime="20221125 17:16:51.084" endtime="20221125 17:16:51.189"/>
+</for>
+<status status="PASS" starttime="20221125 17:16:51.080" endtime="20221125 17:16:51.189"/>
+</branch>
+<status status="PASS" starttime="20221125 17:16:51.076" endtime="20221125 17:16:51.190"/>
+</if>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${body}</var>
+<arg>active=${active}</arg>
+<arg>city=${city}</arg>
+<arg>contracts=${contracts}</arg>
+<arg>email=${email}</arg>
+<arg>name=${name}</arg>
+<arg>street=${street}</arg>
+<arg>surname=${surname}</arg>
+<arg>zip=${zip}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20221125 17:16:51.198" level="INFO">${body} = {'active': True, 'city': 'Testcity', 'contracts': [{'currency': 'USD', 'id': '33', 'price': 9.99, 'type': 'basic'}], 'email': 'tom@miller.com', 'name': 'miller', 'street': '1st street', 'surname': 'to...</msg>
+<status status="PASS" starttime="20221125 17:16:51.191" endtime="20221125 17:16:51.199"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>url=${GLOBAL_ENDPOINT_USERS}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${expectedStatuscode}</arg>
+<arg>headers=${GLOBAL_AUTH_HEADER}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20221125 17:16:51.289" level="INFO">POST Request : url=http://127.0.0.1:5000/users 
+ path_url=/users 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer asfd234fkaDkf2asdf2a889DFJSFlsDFWf21', 'Content-Length': '219', 'Content-Type': 'application/json'} 
+ body=b'{"active": true, "city": "Testcity", "contracts": [{"currency": "USD", "id": "33", "price": 9.99, "type": "basic"}], "email": "tom@miller.com", "name": "miller", "street": "1st street", "surname": "tom", "zip": "91343"}' 
+ </msg>
+<msg timestamp="20221125 17:16:51.290" level="INFO">POST Response : url=http://127.0.0.1:5000/users 
+ status=201, reason=CREATED 
+ headers={'Server': 'Werkzeug/2.2.2 Python/3.9.13', 'Date': 'Fri, 25 Nov 2022 11:46:51 GMT', 'Content-Type': 'application/json', 'Content-Length': '12', 'Connection': 'close'} 
+ body={"ID":5585}
+ 
+ </msg>
+<msg timestamp="20221125 17:16:51.290" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20221125 17:16:51.200" endtime="20221125 17:16:51.291"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${userId}</var>
+<arg>${empty}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20221125 17:16:51.296" level="INFO">${userId} = </msg>
+<status status="PASS" starttime="20221125 17:16:51.292" endtime="20221125 17:16:51.296"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;${expectedStatuscode}&quot; == &quot;201&quot;">
+<kw name="Get From Dictionary" library="Collections">
+<var>${userId}</var>
+<arg>${response.json()}</arg>
+<arg>ID</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20221125 17:16:51.304" level="INFO">${userId} = 5585</msg>
+<status status="PASS" starttime="20221125 17:16:51.299" endtime="20221125 17:16:51.305"/>
+</kw>
+<status status="PASS" starttime="20221125 17:16:51.297" endtime="20221125 17:16:51.305"/>
+</branch>
+<status status="PASS" starttime="20221125 17:16:51.297" endtime="20221125 17:16:51.306"/>
+</if>
+<msg timestamp="20221125 17:16:51.307" level="INFO">${id} = 5585</msg>
+<msg timestamp="20221125 17:16:51.308" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20221125 17:16:51.064" endtime="20221125 17:16:51.308"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${SUITE_USER_ID}</arg>
+<arg>${id}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20221125 17:16:51.311" level="INFO">${SUITE_USER_ID} = 5585</msg>
+<status status="PASS" starttime="20221125 17:16:51.309" endtime="20221125 17:16:51.312"/>
+</kw>
+<status status="PASS" starttime="20221125 17:16:50.891" endtime="20221125 17:16:51.316"/>
+</kw>
+<test id="s1-t1" name="Verify Delete Users" line="12">
+<kw name="Delete User" library="setupTeardowns">
+<var>${response}</var>
+<arg>${SUITE_USER_ID}</arg>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${response}</var>
+<arg>url=${GLOBAL_ENDPOINT_USERS}/${userId}</arg>
+<arg>expected_status=200</arg>
+<arg>headers=${GLOBAL_AUTH_HEADER}</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20221125 17:16:51.440" level="INFO">DELETE Request : url=http://127.0.0.1:5000/users/5585 
+ path_url=/users/5585 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer asfd234fkaDkf2asdf2a889DFJSFlsDFWf21', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20221125 17:16:51.441" level="INFO">DELETE Response : url=http://127.0.0.1:5000/users/5585 
+ status=200, reason=OK 
+ headers={'Server': 'Werkzeug/2.2.2 Python/3.9.13', 'Date': 'Fri, 25 Nov 2022 11:46:51 GMT', 'Content-Type': 'application/json', 'Content-Length': '17', 'Connection': 'close'} 
+ body={"MESSAGE":"OK"}
+ 
+ </msg>
+<msg timestamp="20221125 17:16:51.442" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20221125 17:16:51.323" endtime="20221125 17:16:51.442"/>
+</kw>
+<msg timestamp="20221125 17:16:51.443" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20221125 17:16:51.321" endtime="20221125 17:16:51.444"/>
+</kw>
+<kw name="Validate Schema" library="validations">
+<arg>inputJson=${response.json()}</arg>
+<arg>referenceSchemaPath=${GLOBAL_SCHEMA_USER_DELETE}</arg>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Validating the JSON Schema!</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20221125 17:16:51.457" endtime="20221125 17:16:51.459"/>
+</kw>
+<kw name="Validate Json Schema" library="json_validate_schema">
+<arg>${inputJson}</arg>
+<arg>${referenceSchemaPath}</arg>
+<status status="PASS" starttime="20221125 17:16:51.460" endtime="20221125 17:16:51.476"/>
+</kw>
+<status status="PASS" starttime="20221125 17:16:51.449" endtime="20221125 17:16:51.483"/>
+</kw>
+<status status="PASS" starttime="20221125 17:16:51.317" endtime="20221125 17:16:51.484"/>
+</test>
+<status status="PASS" starttime="20221125 17:16:49.161" endtime="20221125 17:16:51.492"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Verify Delete Users">Verify Delete Users</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
